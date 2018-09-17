@@ -6,8 +6,6 @@ AS
 
 		delete from servicios
 		 where id = @id;
-
-		select * from servicios;
 		
 	END
 GO

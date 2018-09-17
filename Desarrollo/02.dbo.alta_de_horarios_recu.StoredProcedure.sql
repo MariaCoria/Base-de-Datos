@@ -14,8 +14,6 @@ AS
 										  fecha_hora_inicio,fecha_hora_fin)
 		values (@id_servicio_profesional,@es_profesional,@tipo_repeticion,@cantidad_repeticiones,
 				@fecha_hora_inicio,@fecha_hora_fin);
-
-		select * from horarios_recurrentes;
 		
 	END
 GO

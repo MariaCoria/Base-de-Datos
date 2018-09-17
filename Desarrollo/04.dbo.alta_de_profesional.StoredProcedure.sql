@@ -8,8 +8,6 @@ AS
 
 		insert into Profesionales (nombre,email,telefono)
 		values (@nombre,@email,@telefono);
-
-		select * from Profesionales;
 		
 	END
 GO

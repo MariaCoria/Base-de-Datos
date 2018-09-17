@@ -13,9 +13,6 @@ AS
 			   email    = @email,
 			   telefono = @telefono
 		 where id       = @id;
-	   
 
-		select * from pacientes;
-				
 	END
 GO

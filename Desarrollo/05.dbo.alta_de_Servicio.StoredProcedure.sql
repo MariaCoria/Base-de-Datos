@@ -8,8 +8,6 @@ AS
 
 		insert into servicios (nombre,tipo)
 		values (@nombre,@tipo);
-
-		select * from servicios;
 			
 	END
 GO

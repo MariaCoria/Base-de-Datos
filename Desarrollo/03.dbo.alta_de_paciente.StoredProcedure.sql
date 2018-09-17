@@ -10,7 +10,5 @@ AS
 		insert into pacientes (nombre,email,telefono)
 		values (@nombre,@email,@telefono);
 
-		select * from pacientes;
-				
 	END
 GO

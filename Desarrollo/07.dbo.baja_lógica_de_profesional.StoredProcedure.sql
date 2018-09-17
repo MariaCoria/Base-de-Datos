@@ -6,8 +6,6 @@ AS
 
 		delete from Profesionales
 		 where id = @id;
-
-		select * from Profesionales;
 		
 	END
 GO

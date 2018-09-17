@@ -6,8 +6,6 @@ AS
 
 		delete from pacientes
 			where id = @id;
-
-		select * from pacientes;
 			
 	END
 GO

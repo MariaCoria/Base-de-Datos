@@ -12,8 +12,6 @@ AS
 			   email    = @email,
 			   telefono = @telefono
 		 where id    = @id;
-
-		select * from Profesionales;
 		
 	END
 GO
