@@ -1,11 +1,10 @@
-CREATE PROCEDURE [dbo].[baja_lógica_de_paciente]
+CREATE PROCEDURE baja_logica_de_paciente
 @id int
 		
 AS
 	BEGIN
 
-		delete from pacientes
-			where id = @id;
-			
+		update pacientes
+		   set activo = 0
+		 where id = @id;			
 	END
-GO
