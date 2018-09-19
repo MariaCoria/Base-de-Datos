@@ -3,4 +3,5 @@ CREATE TABLE [dbo].[Profesionales](
 	[nombre] [varchar](255) NULL,
 	[email] [varchar](80) NULL,
 	[telefono] [varchar](40) NULL,
+        [activo] [bit] NULL
 )
