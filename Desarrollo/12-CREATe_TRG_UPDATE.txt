@@ -1,0 +1,29 @@
+CREATE TRIGGER TRG_UPDATE ON USUARIO FOR UPDATE
+AS
+
+BEGIN
+
+	DECLARE @id INT;
+	DECLARE @cantidad_por_pagina INT;
+	DECLARE @nro_pagina INT;
+	DECLARE @tipo_actividad CHAR(1);
+	
+	DECLARE REG_UPDATE CURSOR FOR SELECT id, cantidad_por_pagina, nro_pagina, 'U' FROM INSERTED;
+	OPEN REG_UPDATE
+	
+	FETCH NEXT FROM REG_UPDATE INTO @id, @cantidad_por_pagina, @nro_pagina, @tipo_actividad;
+		
+		WHILE @@FETCH_STATUS = 0
+		
+		BEGIN	
+				INSERT INTO actividad (id,cantidad_por_pagina,nro_pagina,tipo_actividad)
+				VALUES(@id,@cantidad_por_pagina,@nro_pagina,@tipo_actividad);
+				
+				FETCH NEXT FROM REG_UPDATE INTO @id, @cantidad_por_pagina, @nro_pagina, @tipo_actividad;
+		END
+		
+		CLOSE REG_UPDATE
+		
+		DEALLOCATE REG_UPDATE
+		
+END

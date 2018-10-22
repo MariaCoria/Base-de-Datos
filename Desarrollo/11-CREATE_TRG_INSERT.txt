@@ -1,0 +1,30 @@
+CREATE TRIGGER TRG_INSERT ON USUARIO FOR INSERT
+AS
+
+BEGIN
+
+	DECLARE @id INT;
+	DECLARE @cantidad_por_pagina INT;
+	DECLARE @nro_pagina INT;
+	DECLARE @tipo_actividad CHAR(1);
+	
+	DECLARE REG_INSERT CURSOR FOR SELECT id, cantidad_por_pagina, nro_pagina, 'I' FROM INSERTED;
+	OPEN REG_INSERT
+	
+	FETCH NEXT FROM REG_INSERT INTO @id, @cantidad_por_pagina, @nro_pagina, @tipo_actividad;
+		
+		WHILE @@FETCH_STATUS = 0
+		
+		BEGIN	
+				INSERT INTO actividad (id,cantidad_por_pagina,nro_pagina,tipo_actividad)
+				VALUES(@id,@cantidad_por_pagina,@nro_pagina,@tipo_actividad);
+				
+				FETCH NEXT FROM REG_INSERT INTO @id, @cantidad_por_pagina, @nro_pagina, @tipo_actividad;
+		END
+		
+		CLOSE REG_INSERT
+		
+		DEALLOCATE REG_INSERT
+		
+END
+

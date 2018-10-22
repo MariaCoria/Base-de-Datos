@@ -1,0 +1,29 @@
+CREATE TRIGGER TRG_DELETE ON USUARIO FOR DELETE
+AS
+
+BEGIN
+
+	DECLARE @id INT;
+	DECLARE @cantidad_por_pagina INT;
+	DECLARE @nro_pagina INT;
+	DECLARE @tipo_actividad CHAR(1);
+	
+	DECLARE REG_DELETE CURSOR FOR SELECT id, cantidad_por_pagina, nro_pagina, 'D' FROM DELETED;
+	OPEN REG_DELETE
+	
+	FETCH NEXT FROM REG_DELETE INTO @id, @cantidad_por_pagina, @nro_pagina, @tipo_actividad;
+		
+		WHILE @@FETCH_STATUS = 0
+		
+		BEGIN	
+				INSERT INTO actividad (id,cantidad_por_pagina,nro_pagina,tipo_actividad)
+				VALUES(@id,@cantidad_por_pagina,@nro_pagina,@tipo_actividad);
+				
+				FETCH NEXT FROM REG_DELETE INTO @id, @cantidad_por_pagina, @nro_pagina, @tipo_actividad;
+		END
+		
+		CLOSE REG_DELETE
+		
+		DEALLOCATE REG_DELETE
+		
+END
