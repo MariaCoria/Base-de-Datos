@@ -1,0 +1,8 @@
+CREATE TABLE auditoria
+(
+	id int identity(1,1),
+	usuario varchar(20),
+	accion char,
+	tabla varchar(30),
+	idtabla int
+);
