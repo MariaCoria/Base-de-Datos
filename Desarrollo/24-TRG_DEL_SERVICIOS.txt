@@ -1,0 +1,30 @@
+CREATE TRIGGER TRG_DELETE_SERVICIOS ON SERVICIOS FOR DELETE
+AS
+
+BEGIN
+
+	DECLARE @id INT;
+	DECLARE @usuario varchar(20);
+	DECLARE @accion char;
+	DECLARE @tabla varchar(30);
+	
+	DECLARE REG_DELETE CURSOR FOR SELECT id, CURRENT_USER, 'D', 'SERVICIOS'
+								    FROM DELETED;
+	OPEN REG_DELETE
+	
+	FETCH NEXT FROM REG_DELETE INTO @id, @usuario, @accion, @tabla;
+		
+		WHILE @@FETCH_STATUS = 0
+		
+		BEGIN	
+				INSERT INTO auditoria (idtabla,usuario,accion,tabla)
+				VALUES(@id,@usuario,@accion,@tabla);
+				
+				FETCH NEXT FROM REG_DELETE INTO @id, @usuario, @accion, @tabla;
+		END
+		
+		CLOSE REG_DELETE
+		
+		DEALLOCATE REG_DELETE
+		
+END

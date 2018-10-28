@@ -1,0 +1,30 @@
+CREATE TRIGGER TRG_UPDATE_PROFESIONALES ON PROFESIONALES FOR UPDATE
+AS
+
+BEGIN
+
+	DECLARE @id INT;
+	DECLARE @usuario varchar(20);
+	DECLARE @accion char;
+	DECLARE @tabla varchar(30);
+	
+	DECLARE REG_UPDATE CURSOR FOR SELECT id, CURRENT_USER, 'U', 'PROFESIONALES'
+								    FROM INSERTED;
+	OPEN REG_UPDATE
+	
+	FETCH NEXT FROM REG_UPDATE INTO @id, @usuario, @accion, @tabla;
+		
+		WHILE @@FETCH_STATUS = 0
+		
+		BEGIN	
+				INSERT INTO auditoria (idtabla,usuario,accion,tabla)
+				VALUES(@id,@usuario,@accion,@tabla);
+				
+				FETCH NEXT FROM REG_UPDATE INTO @id, @usuario, @accion, @tabla;
+		END
+		
+		CLOSE REG_UPDATE
+		
+		DEALLOCATE REG_UPDATE
+		
+END

@@ -1,0 +1,30 @@
+CREATE TRIGGER TRG_INSERT_HORARIOS ON HORARIOS_DISPONIBLES FOR INSERT
+AS
+
+BEGIN
+
+	DECLARE @id INT;
+	DECLARE @usuario varchar(20);
+	DECLARE @accion char;
+	DECLARE @tabla varchar(30);
+	
+	DECLARE REG_INSERT CURSOR FOR SELECT id_servicio_profesional, CURRENT_USER, 'I', 'HORARIOS_DISPONIBLES'
+								    FROM INSERTED;
+	OPEN REG_INSERT
+	
+	FETCH NEXT FROM REG_INSERT INTO @id, @usuario, @accion, @tabla;
+		
+		WHILE @@FETCH_STATUS = 0
+		
+		BEGIN	
+				INSERT INTO auditoria (idtabla,usuario,accion,tabla)
+				VALUES(@id,@usuario,@accion,@tabla);
+				
+				FETCH NEXT FROM REG_INSERT INTO @id, @usuario, @accion, @tabla;
+		END
+		
+		CLOSE REG_INSERT
+		
+		DEALLOCATE REG_INSERT
+		
+END
