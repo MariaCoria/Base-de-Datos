@@ -1,0 +1,55 @@
+INSERT INTO horarios_disponibles(id_servicio_profesional,es_profesional,fecha_hora_inicio,fecha_hora_fin)
+VALUES(1,1,SYSDATETIME(),SYSDATETIME());
+INSERT INTO horarios_disponibles(id_servicio_profesional,es_profesional,fecha_hora_inicio,fecha_hora_fin)
+VALUES(2,0,SYSDATETIME(),SYSDATETIME());
+
+UPDATE horarios_disponibles
+SET id_servicio_profesional = 3
+WHERE id_servicio_profesional = 1;
+
+DELETE horarios_disponibles
+WHERE id_servicio_profesional = 2;
+
+SELECT * FROM AUDITORIA
+
+INSERT INTO pacientes(nombre,email,telefono,activo)
+VALUES('Maria Coria','mariacoria@hotmail.com','1151312345',1);
+INSERT INTO pacientes(nombre,email,telefono,activo)
+VALUES('Dario Sanchez','darioramirez@hotmail.com','1154346548',0);
+
+UPDATE pacientes
+SET activo = 0
+WHERE id = 1;
+
+DELETE pacientes
+WHERE id = 2;
+
+SELECT * FROM AUDITORIA
+
+INSERT INTO profesionales(nombre,email,telefono,activo)
+VALUES('Blanca Coronel','blancacoronel@hotmail.com','1156543245',1);
+INSERT INTO profesionales(nombre,email,telefono,activo)
+VALUES('Elena Camargo','elenacamargo@hotmail.com','1159876548',0);
+
+UPDATE profesionales
+SET activo = 0
+WHERE id = 1;
+
+DELETE profesionales
+WHERE id = 2;
+
+SELECT * FROM AUDITORIA
+
+INSERT INTO servicios(nombre,tipo,activo)
+VALUES('Blanqueamiento','BL',1);
+INSERT INTO servicios(nombre,tipo,activo)
+VALUES('Guardia','GU',0);
+
+UPDATE servicios
+SET activo = 0
+WHERE id = 1;
+
+DELETE servicios
+WHERE id = 2;
+
+SELECT * FROM AUDITORIA
