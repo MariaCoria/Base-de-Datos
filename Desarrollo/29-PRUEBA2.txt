@@ -1,0 +1,42 @@
+INSERT INTO USUARIO (USUARIO)
+VALUES ('MERY');
+
+INSERT INTO USUARIO (USUARIO)
+VALUES ('SILVER');
+
+INSERT INTO USUARIO (USUARIO)
+VALUES ('ANA');
+
+update auditoria 
+set usuario = 'SILVER'
+where id in (1,6,9,11);
+
+update auditoria 
+set usuario = 'MERY'
+where id in (2,8,12,16);
+
+update auditoria 
+set usuario = 'ANA'
+where id in (17,10,4,5);
+
+DECLARE @ID int;
+DECLARE @cantidad_por_pagina int;
+DECLARE @nro_pagina int;
+DECLARE @tipo_actividad char;
+SET @ID = 1;
+SET @cantidad_por_pagina = 100;
+SET @nro_pagina = 1;
+SET @tipo_actividad = 'U';
+
+EXECUTE dbo.USUARIO_ACT @ID,@cantidad_por_pagina,@nro_pagina,@tipo_actividad;
+
+
+DECLARE @ID int;
+DECLARE @cantidad_por_pagina int;
+DECLARE @nro_pagina int;
+SET @ID = 1;
+SET @cantidad_por_pagina = 2;
+SET @nro_pagina = 1;
+
+
+EXECUTE dbo.USUARIO_PRC @ID,@cantidad_por_pagina,@nro_pagina;
