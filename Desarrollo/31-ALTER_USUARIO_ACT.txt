@@ -1,0 +1,48 @@
+ALTER PROCEDURE [dbo].[USUARIO_ACT]
+@ID INT,
+@cantidad_por_pagina INT,
+@nro_pagina INT,
+@tipo_actividad CHAR
+AS
+
+DECLARE @ACCION CHAR;
+DECLARE @TABLA VARCHAR(30);
+DECLARE @IDTABLA INT;
+DECLARE @CANT INT;
+DECLARE @MIN INT;
+DECLARE @MAX INT;
+
+BEGIN
+	
+	IF OBJECT_ID('#tmptable') IS NOT NULL DROP TABLE #tmptable
+	CREATE TABLE #tmptable ( ACCION CHAR, TABLA VARCHAR(30), IDTABLA INT)
+	
+	SET @CANT = 0;
+	SET @MIN = (@nro_pagina * @cantidad_por_pagina)-@cantidad_por_pagina;
+	SET @MAX = ((@nro_pagina * @cantidad_por_pagina)+1);
+	DECLARE C CURSOR FOR 
+	SELECT A.ACCION,A.TABLA,A.IDTABLA
+	  FROM AUDITORIA A
+	 WHERE A.ACCION = @tipo_actividad;
+
+	OPEN C
+	FETCH NEXT FROM C INTO @ACCION,@TABLA,@IDTABLA
+	while @@fetch_Status = 0 
+
+	BEGIN
+		SET @CANT = @CANT + 1;
+		IF(@CANT > @MIN AND @CANT < @MAX)
+		begin
+			insert into #tmptable (ACCION,TABLA,IDTABLA)
+			select @ACCION,@TABLA,@IDTABLA
+		end
+
+		FETCH NEXT FROM C INTO @ACCION,@TABLA,@IDTABLA
+
+	END
+	close c 
+	deallocate c
+	
+	select * from #tmptable
+	drop table #tmptable
+END
