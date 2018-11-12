@@ -1,0 +1,10 @@
+create table turnos
+( id_turno INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+  id_usuario varchar(50),
+  id_paciente int,
+  id_servicio int,
+  fecha datetime,
+  cancelado varchar(10));
+  
+alter table horarios_disponibles
+add reservado bit;
