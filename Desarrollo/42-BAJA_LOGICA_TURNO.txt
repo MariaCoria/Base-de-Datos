@@ -1,0 +1,30 @@
+create procedure CancelarTurno
+@id_turno int
+as
+declare @fecha datetime
+declare @id_servicio int
+begin
+
+	IF EXISTS (SELECT * FROM turnos 
+				WHERE id_turno = @id_turno)
+		BEGIN
+			UPDATE turnos
+			   SET cancelado = 'X'
+			 WHERE id_turno = @id_turno
+			 
+			 SET @fecha = (select fecha
+							from turnos
+						   where id_turno = @id_turno)
+						  
+			 SET @id_servicio = (select id_servicio
+								   from turnos
+								  where id_turno = @id_turno)
+			 
+			 UPDATE horarios_disponibles
+			    SET reservado = 0
+			  WHERE fecha_hora_inicio = @fecha and id_servicio_profesional = @id_servicio
+		END
+	
+	ELSE
+		PRINT 'ERROR, El turno NO existe'
+end

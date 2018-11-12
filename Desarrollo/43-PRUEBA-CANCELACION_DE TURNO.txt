@@ -1,0 +1,4 @@
+EXEC CancelarTurno 1
+
+select * from horarios_disponibles
+select * from turnos

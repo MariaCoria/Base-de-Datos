@@ -1,0 +1,43 @@
+CREATE PROCEDURE [dbo].LISTA_TURNOS_RESERVADOS
+@ID_PROFESIONAL INT,
+@ES_PROFESIONAL BIT,
+@fecha_solicitada date
+AS
+
+DECLARE @id_turno INT;
+DECLARE @id_usuario varchar(50);
+DECLARE @id_paciente int;
+DECLARE @id_servicio int;
+DECLARE @fecha date;
+
+BEGIN
+	
+	IF OBJECT_ID('#tmpturnos') IS NOT NULL DROP TABLE tmpturnos
+	CREATE TABLE #tmpturnos ( id_turno INT,	id_usuario varchar(50), id_paciente int, id_servicio int, fecha date)
+	
+	DECLARE C CURSOR FOR 
+	SELECT t.id_turno,t.id_usuario,t.id_paciente,t.id_servicio,t.fecha
+	  FROM TURNOS t, horarios_disponibles hd
+	 WHERE cancelado != 'X' AND hd.id_servicio_profesional = T.id_servicio
+	   AND fecha_hora_inicio = FECHA AND hd.id_servicio_profesional = @ID_PROFESIONAL 
+	   and hd.es_profesional = @ES_PROFESIONAL
+	   AND CAST( t.fecha as date) =  @fecha_solicitada;
+
+	OPEN C
+	FETCH NEXT FROM C INTO @id_turno,@id_usuario,@id_paciente,@id_servicio,@fecha
+	while @@fetch_Status = 0 
+
+	BEGIN
+		insert into #tmpturnos (id_turno,id_usuario,id_paciente,id_servicio,fecha)
+		select @id_turno,@id_usuario,@id_paciente,@id_servicio,@fecha
+
+
+		FETCH NEXT FROM C INTO @id_turno,@id_usuario,@id_paciente,@id_servicio,@fecha
+
+	END
+	close c 
+	deallocate c
+	
+	select * from #tmpturnos
+	drop table #tmpturnos
+END

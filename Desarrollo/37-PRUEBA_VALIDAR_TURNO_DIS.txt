@@ -1,0 +1,13 @@
+SELECT * FROM horarios_disponibles
+
+INSERT INTO horarios_disponibles (id_servicio_profesional,es_profesional,fecha_hora_inicio,fecha_hora_fin,reservado)
+VALUES (1,1,GETDATE(),GETDATE(),0);
+INSERT INTO horarios_disponibles (id_servicio_profesional,es_profesional,fecha_hora_inicio,fecha_hora_fin,reservado)
+VALUES (2,0,GETDATE()-10,GETDATE(),0);
+INSERT INTO horarios_disponibles (id_servicio_profesional,es_profesional,fecha_hora_inicio,fecha_hora_fin,reservado)
+VALUES (3,1,GETDATE()-5,GETDATE(),0);
+INSERT INTO horarios_disponibles (id_servicio_profesional,es_profesional,fecha_hora_inicio,fecha_hora_fin,reservado)
+VALUES (4,1,GETDATE()+5,GETDATE(),0);
+
+EXEC ValidarServicioDisponible '2018-11-11 19:41:29.227',1
+EXEC ValidarServicioDisponible '2018-11-11 19:41:29.227',2

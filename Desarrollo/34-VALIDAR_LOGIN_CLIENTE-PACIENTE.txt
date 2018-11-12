@@ -1,0 +1,29 @@
+create table login
+( id_usuario INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+  usuario varchar(50),
+  password varchar(50),
+  tipo varchar(50));
+  
+insert into login 
+values ('maria','maria123','paciente');
+
+insert into login 
+values ('lujan','lujan321','profesional');
+
+insert into login 
+values ('andres','andres321','servicio');
+
+insert into login 
+values ('pedro','pedro321','cliente');
+
+create procedure ValidarLogin
+@usuario varchar(50),
+@password varchar(50),
+@tipo varchar(50)
+as
+begin
+	IF EXISTS (SELECT * FROM login WHERE usuario = @usuario and password = @password and tipo = @tipo)
+		PRINT 'Login correcto'
+	ELSE
+		PRINT 'Logueo Fallido'
+end
