@@ -1,0 +1,17 @@
+alter table auditoria add primary key (id);
+alter table login add primary key (id_usuario);
+alter table pacientes add primary key (id);
+alter table Profesionales add primary key (id);
+alter table servicios add primary key (id);
+alter table turnos add primary key (id_turno);
+alter table USUARIO add primary key (id);
+
+
+SELECT t.id_turno,t.id_usuario,t.id_paciente,t.id_servicio,t.fecha
+	  FROM TURNOS t, horarios_disponibles hd
+	 WHERE cancelado != 'X' AND hd.id_servicio_profesional = T.id_servicio
+	   AND fecha_hora_inicio = FECHA AND hd.id_servicio_profesional = 4 
+	   and hd.es_profesional = 1
+	   AND CAST( t.fecha as date) =  cast('2018-11-16' as date);
+	   
+Create index idx_horarios_disponibles on horarios_disponibles(fecha_hora_inicio,id_servicio_profesional,es_profesional);
